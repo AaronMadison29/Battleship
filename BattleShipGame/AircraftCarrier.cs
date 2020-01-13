@@ -11,7 +11,7 @@ namespace BattleShipGame
         public AircraftCarrier()
         {
             name = "AircraftCarrier";
-            boatChar = 'A';
+            boatChar = "[A]";
             addLength = 4;
         }
     }

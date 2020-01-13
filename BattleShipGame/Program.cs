@@ -16,6 +16,8 @@ namespace BattleShipGame
             Game game = new Game(player1, player2);
 
             game.Run();
+
+            Console.ReadLine();
         }
     }
 }

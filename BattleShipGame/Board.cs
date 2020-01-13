@@ -13,10 +13,17 @@ namespace BattleShipGame
         Battleship battleship = new Battleship();
         AircraftCarrier aircraftCarrier = new AircraftCarrier();
 
-        public char[,] board = new char[20, 20];
+        public string[,] board;
         public Board()
         {
-
+            board = new string[20, 20];
+            for(int i = 0; i < 20; i++)
+            {
+                for(int j = 0; j < 20; j++)
+                {
+                    board[i, j] = "[ ]";
+                }
+            }
         }
     }
 }

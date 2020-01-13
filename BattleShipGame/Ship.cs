@@ -9,7 +9,7 @@ namespace BattleShipGame
     class Ship
     {
         public string name;
-        public char boatChar;
+        public string boatChar;
         public List<(int, int)> coordinates;
         public int addLength;
 
@@ -27,7 +27,7 @@ namespace BattleShipGame
             int x1 = Convert.ToInt32(input[0]);
             int y1 = Convert.ToInt32(input[1]);
 
-            boardIn.board[x1, y1] = boatChar;
+            
 
             var tupleList = new List<(int, int)>
             {
@@ -59,6 +59,7 @@ namespace BattleShipGame
                     if(i > 0 && y2 > 0)
                     {
                         coordinates.Add((i, y2));
+                        boardIn.board[i, y2] = boatChar;
                     }
                     
                 }
@@ -70,6 +71,7 @@ namespace BattleShipGame
                     if(i > 0 && y2 > 0)
                     {
                         coordinates.Add((i, y2));
+                        boardIn.board[i, y2] = boatChar;
                     }
                     
                 }
@@ -81,6 +83,7 @@ namespace BattleShipGame
                     if (x2 > 0 && i > 0)
                     {
                         coordinates.Add((x2, i));
+                        boardIn.board[x2, i] = boatChar;
                     }
 
                 }
@@ -92,11 +95,13 @@ namespace BattleShipGame
                     if (x2 > 0 && i > 0)
                     {
                         coordinates.Add((x2, i));
+                        boardIn.board[x2, i] = boatChar;
                     }
                 }
             }
 
 
+            boardIn.board[x1, y1] = boatChar;
             boardIn.board[x2, y2] = boatChar;
 
             

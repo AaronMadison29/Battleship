@@ -11,7 +11,7 @@ namespace BattleShipGame
         public Submarine()
         {
             name = "Submarine";
-            boatChar = 'S';
+            boatChar = "[S]";
             addLength = 2;
         }
     }
