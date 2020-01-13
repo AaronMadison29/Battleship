@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace BattleShipGame
 {
-    class Submarine
+    class Submarine : Ship
     {
+        public Submarine()
+        {
+            name = "Submarine";
+            boatChar = 'S';
+            addLength = 2;
+        }
     }
 }

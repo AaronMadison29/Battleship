@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace BattleShipGame
 {
-    class Battleship
+    class Battleship : Ship
     {
+        public Battleship()
+        {
+            name = "Battleship";
+            boatChar = 'B';
+            addLength = 3;
+        }
     }
 }
