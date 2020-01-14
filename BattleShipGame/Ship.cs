@@ -27,12 +27,21 @@ namespace BattleShipGame
             int x1 = Convert.ToInt32(input[0]) - 1;
             int y1 = Convert.ToInt32(input[1]) - 1;
 
+            if (x1 > 9 || y1 > 9)
+            {
+                Console.WriteLine("That space is invalid, please choose another.");
+                Place(boardIn);
+                return;
+            }
+
             if (boardIn.board[x1, y1] != "[ ]")
             {
                 Console.WriteLine("That space is already filled, please choose another.");
                 Place(boardIn);
                 return;
             }
+
+
 
             var tupleList = new List<(int, int)>
             {
@@ -41,18 +50,78 @@ namespace BattleShipGame
                 (x1, y1+addLength),
                 (x1, y1-addLength),
             };
-            
-            
 
             Console.WriteLine("Where would you like to end your " + name + "?(X,Y)");
-
+            bool cleanPlacement = false;
             foreach ((int, int) coords in tupleList)
             {
-                
-                if((coords.Item1 + 1) >= 1 && (coords.Item2 + 1) >= 1 && (coords.Item1 + 1) <= 10 && (coords.Item2 + 1) <= 10 && boardIn.board[coords.Item1, coords.Item2] == "[ ]")
+
+                if (coords.Item1 > x1)
+                {
+                    for (int i = x1 + 1; i < coords.Item1; i++)
+                    {
+                        if(boardIn.board[i, coords.Item2] != "[ ]")
+                        {
+                            cleanPlacement = false;
+                            break;
+                        }
+                        else
+                        {
+                            cleanPlacement = true;
+                        }
+                    }
+                }
+                else if (coords.Item1 < x1)
+                {
+                    for (int i = x1 - 1; i > coords.Item1; i--)
+                    {
+                        if (boardIn.board[i, coords.Item2] != "[ ]")
+                        {
+                            cleanPlacement = false;
+                            break;
+                        }
+                        else
+                        {
+                            cleanPlacement = true;
+                        }
+                    }
+                }
+                else if (coords.Item2 > y1)
+                {
+                    for (int i = y1 + 1; i < coords.Item2; i++)
+                    {
+                        if (boardIn.board[coords.Item1, i] != "[ ]")
+                        {
+                            cleanPlacement = false;
+                            break;
+                        }
+                        else
+                        {
+                            cleanPlacement = true;
+                        }
+                    }
+                }
+                else if (coords.Item2 < y1)
+                {
+                    for (int i = y1 - 1; i > coords.Item2; i--)
+                    {
+                        if (boardIn.board[coords.Item1, i] != "[ ]")
+                        {
+                            cleanPlacement = false;
+                            break;
+                        }
+                        else
+                        {
+                            cleanPlacement = true;
+                        }
+                    }
+                }
+
+                if(cleanPlacement == true && coords.Item1 < 10 && coords.Item2 < 10 && coords.Item1 > 0 && coords.Item2 > 0)
                 {
                     Console.WriteLine((coords.Item1 + 1) + ", " + (coords.Item2 + 1));
                 }
+
             }
 
             input = Console.ReadLine().Split(',');
@@ -88,6 +157,12 @@ namespace BattleShipGame
                 {
                     if(i > 0 && y2 > 0)
                     {
+                        if (boardIn.board[i, y2] != "[ ]")
+                        {
+                            Console.WriteLine("Ship would overlap another previously placed ship, please choose another end location.");
+                            Place(boardIn);
+                            return;
+                        }
                         coordinates.Add((i, y2));
                         boardIn.board[i, y2] = boatChar;
                     }
@@ -96,10 +171,16 @@ namespace BattleShipGame
             }
             else if(x2 < x1)
             {
-                for (int i = x1; i > x2; i--)
+                for (int i = x1 - 1; i > x2; i--)
                 {
                     if(i > 0 && y2 > 0)
                     {
+                        if (boardIn.board[i, y2] != "[ ]")
+                        {
+                            Console.WriteLine("Ship would overlap another previously placed ship, please choose another end location.");
+                            Place(boardIn);
+                            return;
+                        }
                         coordinates.Add((i, y2));
                         boardIn.board[i, y2] = boatChar;
                     }
@@ -112,6 +193,12 @@ namespace BattleShipGame
                 {
                     if (x2 > 0 && i > 0)
                     {
+                        if (boardIn.board[x2, i] != "[ ]")
+                        {
+                            Console.WriteLine("Ship would overlap another previously placed ship, please choose another end location.");
+                            Place(boardIn);
+                            return;
+                        }
                         coordinates.Add((x2, i));
                         boardIn.board[x2, i] = boatChar;
                     }
@@ -120,10 +207,16 @@ namespace BattleShipGame
             }
             else if (y2 < y1)
             {   
-                for (int i = y1 + 1; i > y2; i--)
+                for (int i = y1 - 1; i > y2; i--)
                 {
                     if (x2 > 0 && i > 0)
                     {
+                        if (boardIn.board[x2, i] != "[ ]")
+                        {
+                            Console.WriteLine("Ship would overlap another previously placed ship, please choose another end location.");
+                            Place(boardIn);
+                            return;
+                        }
                         coordinates.Add((x2, i));
                         boardIn.board[x2, i] = boatChar;
                     }

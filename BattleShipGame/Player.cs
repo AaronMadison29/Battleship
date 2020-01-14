@@ -8,7 +8,7 @@ namespace BattleShipGame
 {
     class Player
     {
-        Board playerBoard = new Board();
+        public Board playerBoard = new Board();
         List<Ship> ships = new List<Ship>();
 
         public Player()
@@ -40,7 +40,10 @@ namespace BattleShipGame
                     Console.WriteLine();
                 }
             }
+            Console.Clear();
         }
+
+
     }
     
 }
