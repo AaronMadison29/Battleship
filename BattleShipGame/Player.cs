@@ -31,15 +31,11 @@ namespace BattleShipGame
             foreach(Ship ship in ships)
             {
                 ship.Place(playerBoard);
-                foreach ((int, int) coords in ship.coordinates)
+                for(int i = 1;i <= 10; i++)
                 {
-                    Console.WriteLine(coords.Item1 + ", " + coords.Item2);
-                }
-                for(int i = 0;i < 20; i++)
-                {
-                    for(int j = 0; j < 20; j++)
+                    for(int j = 1; j <= 10; j++)
                     {
-                        Console.Write(playerBoard.board[i, j]);
+                        Console.Write(playerBoard.board[j-1, i-1]);
                     }
                     Console.WriteLine();
                 }
