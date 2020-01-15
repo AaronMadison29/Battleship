@@ -19,13 +19,15 @@ namespace BattleShipGame
 
         }
 
-        public void Sink(Player player)
+        public void Sink(Player player, Player opponent)
         {
             Console.WriteLine($"You sunk {player.name}'s {this.name}\n");
             foreach((int, int) coord in coordinates)
             {
                 player.playerBoard.board[coord.Item1, coord.Item2] = "[X]";
+                opponent.opponentBoard.board[coord.Item1, coord.Item2] = "[X]";
             }
+            
         }
 
 

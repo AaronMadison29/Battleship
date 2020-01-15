@@ -11,7 +11,7 @@ namespace BattleShipGame
         public string name;
         public Board playerBoard = new Board();
         public Board opponentBoard = new Board();
-        List<Ship> ships = new List<Ship>();
+        public List<Ship> ships = new List<Ship>();
         Destroyer destroyer;
         Submarine submarine;
         Battleship battleship;
@@ -172,9 +172,16 @@ namespace BattleShipGame
             {
                 if(ship.boatIndentifier == boatIndentifier && ship.health == 0)
                 {
-                    ship.Sink(this);
+                    ship.Sink(this, opponent);
+                    RemoveShip(ship);
+                    break;
                 }
             }
+        }
+
+        public void RemoveShip(Ship ship)
+        {
+            ships.Remove(ship);
         }
     }
 }

@@ -30,19 +30,53 @@ namespace BattleShipGame
 
         }
 
+        public bool GameOver()
+        {
+            if (player1.ships.Count == 0)
+            {
+                Console.Clear();
+                Console.WriteLine($"{player2.name} wins!");
+                return true;
+
+            }
+            else if (player2.ships.Count == 0)
+            {
+                Console.Clear();
+                Console.WriteLine($"{player1.name} wins!");
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public void Run()
         {
             do
             {
                 player1.Fire(player2);
                 player1.GetBoard();
+
+                if (GameOver())
+                {
+                    break;
+                }
+
                 Console.WriteLine("Press enter to pass the turn.");
                 Console.ReadLine();
                 Console.Clear();
 
+                
 
                 player2.Fire(player1);
                 player2.GetBoard();
+
+                if (GameOver())
+                {
+                    break;
+                }
+
                 Console.WriteLine("Press enter to pass the turn.");
                 Console.ReadLine();
                 Console.Clear();
