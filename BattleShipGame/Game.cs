@@ -66,7 +66,7 @@ namespace BattleShipGame
         {
             player1.SetShips();
             player2.SetShips();
-            if(players == 0)
+            if (players == 0)
             {
                 player1.GetBoard();
                 player2.GetBoard();

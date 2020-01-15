@@ -39,14 +39,14 @@ namespace BattleShipGame
                 (x1-ship.addLength, y1),
                 (x1, y1+ship.addLength),
                 (x1, y1-ship.addLength),
-            };for(int i = tupleList.Count - 1; i > 0; i--)
+            }; for (int i = tupleList.Count - 1; i > 0; i--)
             {
-                if (tupleList[i].Item1 > 10 || tupleList[i].Item2 > 10 || tupleList[i].Item1< 0 || tupleList[i].Item2 < 0)
+                if (tupleList[i].Item1 > 10 || tupleList[i].Item2 > 10 || tupleList[i].Item1 < 0 || tupleList[i].Item2 < 0)
                 {
                     tupleList.RemoveAt(i);
                 }
             }
-            
+
 
             (int, int) coordinates = tupleList[ran.Next(tupleList.Count)];
 
@@ -62,73 +62,159 @@ namespace BattleShipGame
                 coordinates
             };
 
-            if (coordinates.Item1 > x1)
-            {
-                for (int i = x1 + 1; i < coordinates.Item1; i++)
-                {
-                    if (i >= 0 && coordinates.Item1 >= 0 && playerBoard.board[coordinates.Item1, coordinates.Item2] == "[ ]")
-                    {
-                        ship.coordinates.Add((i, coordinates.Item2));
-                        playerBoard.board[i, coordinates.Item2] = ship.boatIndentifier;
-                    }
+            //if (coordinates.Item1 > x1)
+            //{
+            //    for (int i = x1; i < coordinates.Item1; i++)
+            //    {
+            //        if (playerBoard.board[coordinates.Item1, coordinates.Item2] == "[ ]")
+            //        {
+            //            ship.coordinates.Add((i, coordinates.Item2));
+            //            playerBoard.board[i, coordinates.Item2] = ship.boatIndentifier;
+            //        }
+            //        else
+            //        {
+            //            Place(ship);
+            //            return;
+            //        }
 
-                }
-            }
-            else if (coordinates.Item1 < x1)
-            {
-                for (int i = x1 - 1; i > coordinates.Item1; i--)
-                {
-                    if (i >= 0 && coordinates.Item2 >= 0 && playerBoard.board[coordinates.Item1, coordinates.Item2] == "[ ]")
-                    {
-                        ship.coordinates.Add((i, coordinates.Item2));
-                        playerBoard.board[i, coordinates.Item2] = ship.boatIndentifier;
-                    }
-                    else
-                    {
-                        Place(ship);
-                        return;
-                    }
-                }
-            }
-            else if (coordinates.Item2 > y1)
-            {
-                for (int i = y1 + 1; i < coordinates.Item2; i++)
-                {
-                    if (coordinates.Item1 >= 0 && i >= 0 && playerBoard.board[coordinates.Item1, coordinates.Item2] == "[ ]")
-                    {
-                        ship.coordinates.Add((coordinates.Item1, i));
-                        playerBoard.board[coordinates.Item1, i] = ship.boatIndentifier;
-                    }
-                    else
-                    {
-                        Place(ship);
-                        return;
-                    }
+            //    }
+            //}
+            //else if (coordinates.Item1 < x1)
+            //{
+            //    for (int i = x1; i > coordinates.Item1; i--)
+            //    {
+            //        if (playerBoard.board[coordinates.Item1, coordinates.Item2] == "[ ]")
+            //        {
+            //            ship.coordinates.Add((i, coordinates.Item2));
+            //            playerBoard.board[i, coordinates.Item2] = ship.boatIndentifier;
+            //        }
+            //        else
+            //        {
+            //            Place(ship);
+            //            return;
+            //        }
+            //    }
+            //}
+            //else if (coordinates.Item2 > y1)
+            //{
+            //    for (int i = y1; i < coordinates.Item2; i++)
+            //    {
+            //        if (playerBoard.board[coordinates.Item1, coordinates.Item2] == "[ ]")
+            //        {
+            //            ship.coordinates.Add((coordinates.Item1, i));
+            //            playerBoard.board[coordinates.Item1, i] = ship.boatIndentifier;
+            //        }
+            //        else
+            //        {
+            //            Place(ship);
+            //            return;
+            //        }
 
-                }
-            }
-            else if (coordinates.Item2 < y1)
+            //    }
+            //}
+            //else if (coordinates.Item2 < y1)
+            //{
+            //    for (int i = y1; i > coordinates.Item2; i--)
+            //    {
+            //        if (playerBoard.board[coordinates.Item1, coordinates.Item2] == "[ ]")
+            //        {
+            //            ship.coordinates.Add((coordinates.Item1, i));
+            //            playerBoard.board[coordinates.Item1, i] = ship.boatIndentifier;
+            //        }
+            //        else
+            //        {
+            //            Place(ship);
+            //            return;
+            //        }
+            //    }
+            //}
+            bool cleanPlacement = false;
+            do
             {
-                for (int i = y1 - 1; i > coordinates.Item2; i--)
+                if (coordinates.Item1 > x1)
                 {
-                    if (coordinates.Item1 >= 0 && i >= 0 && playerBoard.board[coordinates.Item1, coordinates.Item2] == "[ ]")
+                    for (int i = x1 + 1; i <= coordinates.Item1; i++)
                     {
-                        ship.coordinates.Add((coordinates.Item1, i));
-                        playerBoard.board[coordinates.Item1, i] = ship.boatIndentifier;
-                    }
-                    else
-                    {
-                        Place(ship);
-                        return;
+                        if (playerBoard.board[i, coordinates.Item2] != "[ ]")
+                        {
+                            cleanPlacement = false;
+                            break;
+                        }
+                        else
+                        {
+                            cleanPlacement = true;
+                        }
                     }
                 }
-            }
+                else if (coordinates.Item1 < x1)
+                {
+                    for (int i = x1 - 1; i >= coordinates.Item1; i--)
+                    {
+                        if (i < 0)
+                        {
+                            cleanPlacement = false;
+                            break;
+                        }
+                        if (playerBoard.board[i, coordinates.Item2] != "[ ]")
+                        {
+                            cleanPlacement = false;
+                            break;
+                        }
+                        else
+                        {
+                            cleanPlacement = true;
+                        }
+                    }
+                }
+                else if (coordinates.Item2 > y1)
+                {
+                    for (int i = y1 + 1; i <= coordinates.Item2; i++)
+                    {
+                        if (playerBoard.board[coordinates.Item1, i] != "[ ]")
+                        {
+                            cleanPlacement = false;
+                            break;
+                        }
+                        else
+                        {
+                            cleanPlacement = true;
+                        }
+                    }
+                }
+                else if (coordinates.Item2 < y1)
+                {
+                    for (int i = y1 - 1; i >= coordinates.Item2; i--)
+                    {
+                        if (i < 0)
+                        {
+                            cleanPlacement = false;
+                            break;
+                        }
+                        if (playerBoard.board[coordinates.Item1, i] != "[ ]")
+                        {
+                            cleanPlacement = false;
+                            break;
+                        }
+                        else
+                        {
+                            cleanPlacement = true;
+                        }
+                    }
+                }
 
+                if (cleanPlacement == true && coordinates.Item1 + 1 < 11 && coordinates.Item2 + 1 < 11 && coordinates.Item1 + 1 > 0 && coordinates.Item2 + 1 > 0)
+                {
+                    playerBoard.board[coordinates.Item1, coordinates.Item2] = ship.boatIndentifier;
+                }
+
+                
+
+
+
+            } while (!cleanPlacement);
 
             playerBoard.board[x1, y1] = ship.boatIndentifier;
             playerBoard.board[coordinates.Item1, coordinates.Item2] = ship.boatIndentifier;
-
-
         }
 
         public override void Fire(Player opponent)
