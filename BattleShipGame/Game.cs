@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace BattleShipGame
@@ -10,12 +11,54 @@ namespace BattleShipGame
     {
         Player player1;
         Player player2;
+        Regex playerIntput = new Regex("[0-2]");
 
-        public Game(Player player1, Player player2)
+        public Game()
         {
-            this.player1 = player1;
-            this.player2 = player2;
+          
+        }
 
+        public int PlayerChoice()
+        {
+            Console.WriteLine("How many players are there? 0, 1, or 2:");
+
+            string input = Console.ReadLine();
+            int players;
+
+            if(playerIntput.IsMatch(input))
+            {
+                players = Convert.ToInt32(input);
+            }
+            else
+            {
+                Console.WriteLine("Please enter a valid input.");
+                PlayerChoice();
+                return 0;
+            }
+
+            return players;
+        }
+
+        public void SetPlayers(int players)
+        {
+            switch(players)
+            {
+                case 0:
+                    player1 = new Computer();
+                    player2 = new Computer();
+                    break;
+                case 1:
+                    player1 = new Player();
+                    player1.SetName();
+                    player2 = new Computer();
+                    break;
+                case 2:
+                    player1 = new Player();
+                    player1.SetName();
+                    player2 = new Player();
+                    player2.SetName();
+                    break;
+            }
         }
 
         public void BoardSetup()

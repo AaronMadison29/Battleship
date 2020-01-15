@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace BattleShipGame
@@ -11,6 +12,7 @@ namespace BattleShipGame
         public string name;
         public string boatIndentifier;
         public List<(int, int)> coordinates;
+        Regex coordInput = new Regex(@"\d\d?\,\d\d?");
         public int addLength;
         public int health;
 
@@ -34,22 +36,23 @@ namespace BattleShipGame
         public void Place(Board boardIn)
         {
             Console.WriteLine("Where would you like to start your " + name + "?(X,Y)");
-            string[] input = Console.ReadLine().Split(',');
+            string input = Console.ReadLine();
 
-            int x1;
-            int y1;
-            try
+            string[] array;
+            if (coordInput.IsMatch(input))
             {
-                x1 = Convert.ToInt32(input[0]) - 1;
-                y1 = Convert.ToInt32(input[1]) - 1;
+                array = input.Split(',');
             }
-            catch (Exception)
+            else
             {
+                Console.WriteLine("Please enter a valid coordinate set.");
                 Place(boardIn);
                 return;
             }
 
-            
+
+            int x1 = Convert.ToInt32(array[0]) - 1;
+            int y1 = Convert.ToInt32(array[1]) - 1;
 
             if (x1 > 9 || y1 > 9)
             {
@@ -162,20 +165,21 @@ namespace BattleShipGame
 
             }
 
-            input = Console.ReadLine().Split(',');
+            input = Console.ReadLine();
 
-            int x2;
-            int y2;
-            try
+            if (coordInput.IsMatch(input))
             {
-                x2 = Convert.ToInt32(input[0]) - 1;
-                y2 = Convert.ToInt32(input[1]) - 1;
+                array = input.Split(',');
             }
-            catch (Exception)
+            else
             {
+                Console.WriteLine("Please enter a valid coordinate set.");
                 Place(boardIn);
                 return;
             }
+
+            int x2 = Convert.ToInt32(array[0]) - 1;
+            int y2 = Convert.ToInt32(array[1]) - 1;
 
             bool validInput = false;
             foreach((int, int) coords in tupleList)

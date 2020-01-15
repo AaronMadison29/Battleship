@@ -8,10 +8,6 @@ namespace BattleShipGame
 {
     class Board
     {
-        Destroyer destroyer = new Destroyer();
-        Submarine submarine = new Submarine();
-        Battleship battleship = new Battleship();
-        AircraftCarrier aircraftCarrier = new AircraftCarrier();
 
         public string[,] board;
         public Board()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace BattleShipGame
@@ -12,6 +13,7 @@ namespace BattleShipGame
         public Board playerBoard = new Board();
         public Board opponentBoard = new Board();
         public List<Ship> ships = new List<Ship>();
+        Regex coordInput = new Regex(@"\d\d?\,\d\d?");
         Destroyer destroyer;
         Submarine submarine;
         Battleship battleship;
@@ -19,6 +21,7 @@ namespace BattleShipGame
 
         public Player()
         {
+            
             destroyer = new Destroyer();
             submarine = new Submarine();
             battleship = new Battleship();
@@ -105,19 +108,21 @@ namespace BattleShipGame
             GetOpponentBoard();
 
             Console.WriteLine($"{name}, what coordinates would you like to fire at?(X/Y)");
-            string[] input = Console.ReadLine().Split(',');
-            int x;
-            int y;
-            try
+            string input = Console.ReadLine();
+            string[] array;
+            if (coordInput.IsMatch(input))
             {
-                x = Convert.ToInt32(input[0]) - 1;
-                y = Convert.ToInt32(input[1]) - 1;
+                array = input.Split(',');
             }
-            catch (Exception)
+            else
             {
+                Console.WriteLine("Please enter a valid coordinate set.");
                 Fire(opponent);
                 return;
             }
+
+            int x = Convert.ToInt32(array[0]) - 1;
+            int y = Convert.ToInt32(array[1]) - 1;
 
             if (opponent.playerBoard.board[x, y] == "[ ]")
             {
