@@ -44,18 +44,18 @@ namespace BattleShipGame
             switch(players)
             {
                 case 0:
-                    player1 = new Computer();
-                    player2 = new Computer();
+                    player1 = new Computer(1);
+                    player2 = new Computer(2);
                     break;
                 case 1:
-                    player1 = new Player();
+                    player1 = new Human();
                     player1.SetName();
-                    player2 = new Computer();
+                    player2 = new Computer(1);
                     break;
                 case 2:
-                    player1 = new Player();
+                    player1 = new Human();
                     player1.SetName();
-                    player2 = new Player();
+                    player2 = new Human();
                     player2.SetName();
                     break;
             }
@@ -106,7 +106,7 @@ namespace BattleShipGame
                     break;
                 }
 
-                Console.WriteLine("Press enter to pass the turn.");
+                Console.Write("Press enter to pass the turn.");
                 Console.ReadLine();
                 Console.Clear();
 
@@ -120,7 +120,7 @@ namespace BattleShipGame
                     break;
                 }
 
-                Console.WriteLine("Press enter to pass the turn.");
+                Console.Write("Press enter to pass the turn.");
                 Console.ReadLine();
                 Console.Clear();
 
