@@ -12,6 +12,7 @@ namespace BattleShipGame
         Player player1;
         Player player2;
         Regex playerIntput = new Regex("[0-2]");
+        Random ran = new Random();
 
         public Game()
         {
@@ -44,13 +45,13 @@ namespace BattleShipGame
             switch(players)
             {
                 case 0:
-                    player1 = new Computer(1);
-                    player2 = new Computer(2);
+                    player1 = new Computer(1, ran);
+                    player2 = new Computer(2, ran);
                     break;
                 case 1:
                     player1 = new Human();
                     player1.SetName();
-                    player2 = new Computer(1);
+                    player2 = new Computer(1, ran);
                     break;
                 case 2:
                     player1 = new Human();
@@ -61,10 +62,15 @@ namespace BattleShipGame
             }
         }
 
-        public void BoardSetup()
+        public void BoardSetup(int players)
         {
             player1.SetShips();
             player2.SetShips();
+            if(players == 0)
+            {
+                player1.GetBoard();
+                player2.GetBoard();
+            }
             Console.WriteLine("Board setup complete");
             Console.WriteLine("Press enter to start the game.");
             Console.ReadLine();

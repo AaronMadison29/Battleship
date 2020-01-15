@@ -10,13 +10,14 @@ namespace BattleShipGame
     {
         static void Main(string[] args)
         {
-
             Game game = new Game();
 
             int players = game.PlayerChoice();
+
             game.SetPlayers(players);
 
-            game.BoardSetup();
+            game.BoardSetup(players);
+
             game.Run();
 
             Console.ReadLine();

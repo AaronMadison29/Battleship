@@ -8,19 +8,160 @@ namespace BattleShipGame
 {
     class Computer : Player
     {
-        public Computer(int compNum)
+        Random ran;
+        public Computer(int compNum, Random ran)
         {
             name = "Computer" + compNum;
+            this.ran = ran;
         }
 
         public override void SetShips()
         {
-            throw new NotImplementedException();
+            foreach(Ship ship in ships)
+            {
+                Place(ship);
+            }
+        }
+        public void Place(Ship ship)
+        {
+            int x1 = ran.Next(10);
+            int y1 = ran.Next(10);
+
+            if (playerBoard.board[x1, y1] != "[ ]")
+            {
+                Place(ship);
+                return;
+            }
+
+            var tupleList = new List<(int, int)>
+            {
+                (x1+ship.addLength, y1),
+                (x1-ship.addLength, y1),
+                (x1, y1+ship.addLength),
+                (x1, y1-ship.addLength),
+            };for(int i = tupleList.Count - 1; i > 0; i--)
+            {
+                if (tupleList[i].Item1 > 10 || tupleList[i].Item2 > 10 || tupleList[i].Item1< 0 || tupleList[i].Item2 < 0)
+                {
+                    tupleList.RemoveAt(i);
+                }
+            }
+            
+
+            (int, int) coordinates = tupleList[ran.Next(tupleList.Count)];
+
+            if (coordinates.Item1 > 10 || coordinates.Item2 > 10 || coordinates.Item2 < 0 || coordinates.Item2 < 0 || playerBoard.board[coordinates.Item1, coordinates.Item2] != "[ ]")
+            {
+                Place(ship);
+                return;
+            }
+
+            ship.coordinates = new List<(int, int)>
+            {
+                (x1, y1),
+                coordinates
+            };
+
+            if (coordinates.Item1 > x1)
+            {
+                for (int i = x1 + 1; i < coordinates.Item1; i++)
+                {
+                    if (i >= 0 && coordinates.Item1 >= 0 && playerBoard.board[coordinates.Item1, coordinates.Item2] == "[ ]")
+                    {
+                        ship.coordinates.Add((i, coordinates.Item2));
+                        playerBoard.board[i, coordinates.Item2] = ship.boatIndentifier;
+                    }
+
+                }
+            }
+            else if (coordinates.Item1 < x1)
+            {
+                for (int i = x1 - 1; i > coordinates.Item1; i--)
+                {
+                    if (i >= 0 && coordinates.Item2 >= 0 && playerBoard.board[coordinates.Item1, coordinates.Item2] == "[ ]")
+                    {
+                        ship.coordinates.Add((i, coordinates.Item2));
+                        playerBoard.board[i, coordinates.Item2] = ship.boatIndentifier;
+                    }
+                    else
+                    {
+                        Place(ship);
+                        return;
+                    }
+                }
+            }
+            else if (coordinates.Item2 > y1)
+            {
+                for (int i = y1 + 1; i < coordinates.Item2; i++)
+                {
+                    if (coordinates.Item1 >= 0 && i >= 0 && playerBoard.board[coordinates.Item1, coordinates.Item2] == "[ ]")
+                    {
+                        ship.coordinates.Add((coordinates.Item1, i));
+                        playerBoard.board[coordinates.Item1, i] = ship.boatIndentifier;
+                    }
+                    else
+                    {
+                        Place(ship);
+                        return;
+                    }
+
+                }
+            }
+            else if (coordinates.Item2 < y1)
+            {
+                for (int i = y1 - 1; i > coordinates.Item2; i--)
+                {
+                    if (coordinates.Item1 >= 0 && i >= 0 && playerBoard.board[coordinates.Item1, coordinates.Item2] == "[ ]")
+                    {
+                        ship.coordinates.Add((coordinates.Item1, i));
+                        playerBoard.board[coordinates.Item1, i] = ship.boatIndentifier;
+                    }
+                    else
+                    {
+                        Place(ship);
+                        return;
+                    }
+                }
+            }
+
+
+            playerBoard.board[x1, y1] = ship.boatIndentifier;
+            playerBoard.board[coordinates.Item1, coordinates.Item2] = ship.boatIndentifier;
+
+
         }
 
         public override void Fire(Player opponent)
         {
-            throw new NotImplementedException();
+            int x = ran.Next(10);
+            int y = ran.Next(10);
+
+            if (opponent.playerBoard.board[x, y] == "[ ]")
+            {
+                Console.WriteLine("Sploosh\n");
+                opponent.playerBoard.board[x, y] = "[M]";
+                opponentBoard.board[x, y] = "[M]";
+            }
+            else if (opponent.playerBoard.board[x, y] == "[M]")
+            {
+                Fire(opponent);
+                return;
+            }
+            else if (opponent.playerBoard.board[x, y] == "[H]")
+            {
+                Fire(opponent);
+                return;
+            }
+            else if (opponent.playerBoard.board[x, y] == "[X]")
+            {
+                Fire(opponent);
+                return;
+            }
+            else
+            {
+                Console.WriteLine("HUHHA!\n");
+                opponent.SetDamage(opponent.playerBoard.board[x, y], this, (x, y));
+            }
         }
 
     }

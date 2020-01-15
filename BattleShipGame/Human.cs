@@ -73,6 +73,12 @@ namespace BattleShipGame
                 Fire(opponent);
                 return;
             }
+            else if (opponent.playerBoard.board[x, y] == "[X]")
+            {
+                Console.WriteLine("You've already sunk a ship at that location.");
+                Fire(opponent);
+                return;
+            }
             else
             {
                 Console.WriteLine("HUHHA!\n");
@@ -82,7 +88,7 @@ namespace BattleShipGame
 
         public void Place(Ship ship)
         {
-            Console.WriteLine("Where would you like to start your " + name + "?(X,Y)");
+            Console.WriteLine("Where would you like to start your " + ship.name + "?(X,Y)");
             string input = Console.ReadLine();
 
             string[] array;
@@ -125,7 +131,7 @@ namespace BattleShipGame
                 (x1, y1-ship.addLength),
             };
 
-            Console.WriteLine("Where would you like to end your " + name + "?(X,Y)");
+            Console.WriteLine("Where would you like to end your " + ship.name + "?(X,Y)");
             bool cleanPlacement = false;
             foreach ((int, int) coords in tupleList)
             {
