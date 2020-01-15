@@ -9,13 +9,23 @@ namespace BattleShipGame
     class Ship
     {
         public string name;
-        public string boatChar;
+        public string boatIndentifier;
         public List<(int, int)> coordinates;
         public int addLength;
+        public int health;
 
         public Ship()
         {
 
+        }
+
+        public void Sink(Player player)
+        {
+            Console.WriteLine($"You sunk {player.name}'s {this.name}\n");
+            foreach((int, int) coord in coordinates)
+            {
+                player.playerBoard.board[coord.Item1, coord.Item2] = "[X]";
+            }
         }
 
 
@@ -24,8 +34,20 @@ namespace BattleShipGame
             Console.WriteLine("Where would you like to start your " + name + "?(X,Y)");
             string[] input = Console.ReadLine().Split(',');
 
-            int x1 = Convert.ToInt32(input[0]) - 1;
-            int y1 = Convert.ToInt32(input[1]) - 1;
+            int x1;
+            int y1;
+            try
+            {
+                x1 = Convert.ToInt32(input[0]) - 1;
+                y1 = Convert.ToInt32(input[1]) - 1;
+            }
+            catch (Exception)
+            {
+                Place(boardIn);
+                return;
+            }
+
+            
 
             if (x1 > 9 || y1 > 9)
             {
@@ -56,9 +78,13 @@ namespace BattleShipGame
             foreach ((int, int) coords in tupleList)
             {
 
-                if (coords.Item1 > x1)
+                if(name == "Destroyer")
                 {
-                    for (int i = x1 + 1; i < coords.Item1; i++)
+                    cleanPlacement = true;
+                }
+                else if (coords.Item1 > x1)
+                {
+                    for (int i = x1 + 1; i <= coords.Item1; i++)
                     {
                         if(boardIn.board[i, coords.Item2] != "[ ]")
                         {
@@ -73,8 +99,13 @@ namespace BattleShipGame
                 }
                 else if (coords.Item1 < x1)
                 {
-                    for (int i = x1 - 1; i > coords.Item1; i--)
+                    for (int i = x1 - 1; i >= coords.Item1; i--)
                     {
+                        if(i < 0)
+                        {
+                            cleanPlacement = false;
+                            break;
+                        }
                         if (boardIn.board[i, coords.Item2] != "[ ]")
                         {
                             cleanPlacement = false;
@@ -88,7 +119,7 @@ namespace BattleShipGame
                 }
                 else if (coords.Item2 > y1)
                 {
-                    for (int i = y1 + 1; i < coords.Item2; i++)
+                    for (int i = y1 + 1; i <= coords.Item2; i++)
                     {
                         if (boardIn.board[coords.Item1, i] != "[ ]")
                         {
@@ -103,8 +134,13 @@ namespace BattleShipGame
                 }
                 else if (coords.Item2 < y1)
                 {
-                    for (int i = y1 - 1; i > coords.Item2; i--)
+                    for (int i = y1 - 1; i >= coords.Item2; i--)
                     {
+                        if (i < 0)
+                        {
+                            cleanPlacement = false;
+                            break;
+                        }
                         if (boardIn.board[coords.Item1, i] != "[ ]")
                         {
                             cleanPlacement = false;
@@ -117,7 +153,7 @@ namespace BattleShipGame
                     }
                 }
 
-                if(cleanPlacement == true && coords.Item1 < 10 && coords.Item2 < 10 && coords.Item1 > 0 && coords.Item2 > 0)
+                if(cleanPlacement == true && coords.Item1 + 1 < 11 && coords.Item2 + 1 < 11 && coords.Item1 + 1 > 0 && coords.Item2 + 1 > 0)
                 {
                     Console.WriteLine((coords.Item1 + 1) + ", " + (coords.Item2 + 1));
                 }
@@ -125,8 +161,20 @@ namespace BattleShipGame
             }
 
             input = Console.ReadLine().Split(',');
-            int x2 = Convert.ToInt32(input[0]) - 1;
-            int y2 = Convert.ToInt32(input[1]) - 1;
+
+            int x2;
+            int y2;
+            try
+            {
+                x2 = Convert.ToInt32(input[0]) - 1;
+                y2 = Convert.ToInt32(input[1]) - 1;
+            }
+            catch (Exception)
+            {
+                Place(boardIn);
+                return;
+            }
+
             bool validInput = false;
             foreach((int, int) coords in tupleList)
             {
@@ -138,7 +186,7 @@ namespace BattleShipGame
             }
 
 
-            if (validInput == false || boardIn.board[x1, y1] != "[ ]")
+            if (validInput == false || boardIn.board[x2, y2] != "[ ]")
             {
                 Console.WriteLine("That is not a valid space, please choose another.");
                 Place(boardIn);
@@ -155,7 +203,7 @@ namespace BattleShipGame
             {
                 for (int i = x1 + 1; i < x2; i++)
                 {
-                    if(i > 0 && y2 > 0)
+                    if(i >= 0 && y2 >= 0)
                     {
                         if (boardIn.board[i, y2] != "[ ]")
                         {
@@ -164,7 +212,7 @@ namespace BattleShipGame
                             return;
                         }
                         coordinates.Add((i, y2));
-                        boardIn.board[i, y2] = boatChar;
+                        boardIn.board[i, y2] = boatIndentifier;
                     }
                     
                 }
@@ -173,7 +221,7 @@ namespace BattleShipGame
             {
                 for (int i = x1 - 1; i > x2; i--)
                 {
-                    if(i > 0 && y2 > 0)
+                    if(i >= 0 && y2 >= 0)
                     {
                         if (boardIn.board[i, y2] != "[ ]")
                         {
@@ -182,7 +230,7 @@ namespace BattleShipGame
                             return;
                         }
                         coordinates.Add((i, y2));
-                        boardIn.board[i, y2] = boatChar;
+                        boardIn.board[i, y2] = boatIndentifier;
                     }
                     
                 }
@@ -191,7 +239,7 @@ namespace BattleShipGame
             {
                 for (int i = y1 + 1; i < y2; i++)
                 {
-                    if (x2 > 0 && i > 0)
+                    if (x2 >= 0 && i >= 0)
                     {
                         if (boardIn.board[x2, i] != "[ ]")
                         {
@@ -200,7 +248,7 @@ namespace BattleShipGame
                             return;
                         }
                         coordinates.Add((x2, i));
-                        boardIn.board[x2, i] = boatChar;
+                        boardIn.board[x2, i] = boatIndentifier;
                     }
 
                 }
@@ -209,7 +257,7 @@ namespace BattleShipGame
             {   
                 for (int i = y1 - 1; i > y2; i--)
                 {
-                    if (x2 > 0 && i > 0)
+                    if (x2 >= 0 && i >= 0)
                     {
                         if (boardIn.board[x2, i] != "[ ]")
                         {
@@ -218,14 +266,14 @@ namespace BattleShipGame
                             return;
                         }
                         coordinates.Add((x2, i));
-                        boardIn.board[x2, i] = boatChar;
+                        boardIn.board[x2, i] = boatIndentifier;
                     }
                 }
             }
 
 
-            boardIn.board[x1, y1] = boatChar;
-            boardIn.board[x2, y2] = boatChar;
+            boardIn.board[x1, y1] = boatIndentifier;
+            boardIn.board[x2, y2] = boatIndentifier;
 
 
         }

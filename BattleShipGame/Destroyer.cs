@@ -11,8 +11,9 @@ namespace BattleShipGame
         public Destroyer()
         {
             name = "Destroyer";
-            boatChar = "[D]";
+            boatIndentifier = "[D]";
             addLength = 1;
+            health = 2;
         }
     }
 }

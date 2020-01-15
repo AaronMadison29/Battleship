@@ -18,48 +18,37 @@ namespace BattleShipGame
 
         }
 
+        public void BoardSetup()
+        {
+            player1.SetShips();
+            player2.SetShips();
+            Console.WriteLine("Board setup complete");
+            Console.WriteLine("Press enter to start the game.");
+            Console.ReadLine();
+            Console.Clear();
+
+
+        }
+
         public void Run()
         {
-            //player1.SetShips();
-            //player2.SetShips();
-            //Console.WriteLine("Board setup complete");
+            do
+            {
+                player1.Fire(player2);
+                player1.GetBoard();
+                Console.WriteLine("Press enter to pass the turn.");
+                Console.ReadLine();
+                Console.Clear();
 
-            Console.WriteLine("Player1 board:");
-            Console.Write("    (1)(2)(3)(4)(5)(6)(7)(8)(9)(10)\n");
-            for (int i = 0; i < 10; i++)
-            {
-                if(i < 9)
-                {
-                    Console.Write(" (" + (i + 1) + ")");
-                }
-                else
-                {
-                    Console.Write("(" + (i + 1) + ")");
-                }
-                for (int j = 0; j < 10; j++)
-                {
-                    Console.Write(player1.playerBoard.board[j, i]);
-                }
-                Console.WriteLine();
-            }
-            Console.WriteLine("Player2 board:");
-            Console.Write("    (1)(2)(3)(4)(5)(6)(7)(8)(9)(10)\n");
-            for (int i = 0; i < 10; i++)
-            {
-                if (i < 9)
-                {
-                    Console.Write(" (" + (i + 1) + ")");
-                }
-                else
-                {
-                    Console.Write("(" + (i + 1) + ")");
-                }
-                for (int j = 0; j < 10; j++)
-                {
-                    Console.Write(player2.playerBoard.board[j, i]);
-                }
-                Console.WriteLine();
-            }
+
+                player2.Fire(player1);
+                player2.GetBoard();
+                Console.WriteLine("Press enter to pass the turn.");
+                Console.ReadLine();
+                Console.Clear();
+
+
+            } while (true);
         }
     }
 }
