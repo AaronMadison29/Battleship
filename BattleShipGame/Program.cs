@@ -13,13 +13,10 @@ namespace BattleShipGame
             Game game = new Game();
 
             int players = game.PlayerChoice();
-            while(true)
-            {
-                game.SetPlayers(players);
 
-                game.BoardSetup(players);
-            }
-            
+            game.SetPlayers(players);
+
+            game.BoardSetup(players);
 
             game.Run();
 
