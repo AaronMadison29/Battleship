@@ -142,6 +142,7 @@ namespace BattleShipGame
                     for (int i = x1 + 1; i < coordinates.Item1; i++)
                     {
                         playerBoard.board[i, coordinates.Item2] = ship.boatIndentifier;
+                        ship.coordinates.Add((i, coordinates.Item2));
                     }
                 }
                 else if (coordinates.Item1 < x1)
@@ -149,6 +150,7 @@ namespace BattleShipGame
                     for (int i = x1 - 1; i > coordinates.Item1; i--)
                     {
                         playerBoard.board[i, coordinates.Item2] = ship.boatIndentifier;
+                        ship.coordinates.Add((i, coordinates.Item2));
                     }
                 }
                 else if (coordinates.Item2 > y1)
@@ -156,6 +158,7 @@ namespace BattleShipGame
                     for (int i = y1 + 1; i <= coordinates.Item2; i++)
                     {
                         playerBoard.board[coordinates.Item1, i] = ship.boatIndentifier;
+                        ship.coordinates.Add((coordinates.Item1, i));
                     }
                 }
                 else if (coordinates.Item2 < y1)
@@ -163,6 +166,7 @@ namespace BattleShipGame
                     for (int i = y1 - 1; i >= coordinates.Item2; i--)
                     {
                         playerBoard.board[coordinates.Item1, i] = ship.boatIndentifier;
+                        ship.coordinates.Add((coordinates.Item1, i));
                     }
                 }
             }

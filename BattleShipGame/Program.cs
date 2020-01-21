@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace BattleShipGame
 {
@@ -10,17 +11,24 @@ namespace BattleShipGame
     {
         static void Main(string[] args)
         {
+
+
             Game game = new Game();
 
-            int players = game.PlayerChoice();
+            Interface.TitleScreen();
 
-            game.SetPlayers(players);
+            game.TitleScreen();
 
-            game.BoardSetup(players);
+            if (!game.saveLoaded)
+            {
+                int players = game.PlayerChoice();
+                game.SetPlayers(players);
+                game.BoardSetup(players);
+            }
 
             game.Run();
 
             Console.ReadLine();
-        }
+        }   
     }
 }

@@ -15,6 +15,11 @@ namespace BattleShipGame
         {
 
         }
+
+        public Human(string username)
+        {
+            name = username;
+        }
         public override void SetShips()
         {
             Console.Clear();
@@ -22,14 +27,7 @@ namespace BattleShipGame
             foreach (Ship ship in ships)
             {
                 Place(ship);
-                for (int i = 1; i <= 10; i++)
-                {
-                    for (int j = 1; j <= 10; j++)
-                    {
-                        Console.Write(playerBoard.board[j - 1, i - 1]);
-                    }
-                    Console.WriteLine();
-                }
+                GetBoard();
             }
             Console.Clear();
         }

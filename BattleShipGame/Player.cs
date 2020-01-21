@@ -83,8 +83,11 @@ namespace BattleShipGame
 
         public void SetName()
         {
-            Console.WriteLine("What is your name?");
-            name = Console.ReadLine();
+            if (name == null)
+            {
+                Console.WriteLine("What is your name?");
+                name = Console.ReadLine();
+            }
         }
 
         public void SetDamage(string boatIndentifier, Player opponent, (int, int) coord)
