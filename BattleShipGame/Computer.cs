@@ -182,8 +182,12 @@ namespace BattleShipGame
 
         public override void Fire(Player opponent)
         {
-            int x = ran.Next(10);
-            int y = ran.Next(10);
+
+            List<(int, int)> targets = TargetAnalysis(Targetting());
+            int random = ran.Next(targets.Count);
+
+            int x = targets[random].Item1;
+            int y = targets[random].Item2;
 
             if (opponent.playerBoard.board[x, y] == "[ ]")
             {
@@ -191,26 +195,65 @@ namespace BattleShipGame
                 opponent.playerBoard.board[x, y] = "[M]";
                 opponentBoard.board[x, y] = "[M]";
             }
-            else if (opponent.playerBoard.board[x, y] == "[M]")
-            {
-                Fire(opponent);
-                return;
-            }
-            else if (opponent.playerBoard.board[x, y] == "[H]")
-            {
-                Fire(opponent);
-                return;
-            }
-            else if (opponent.playerBoard.board[x, y] == "[X]")
-            {
-                Fire(opponent);
-                return;
-            }
             else
             {
                 Console.WriteLine("HUHHA!\n");
                 opponent.SetDamage(opponent.playerBoard.board[x, y], this, (x, y));
             }
+
+            GetOpponentBoard();
+        }
+
+        public List<(int, int)> Targetting()
+        {
+            List<(int, int)> targets = new List<(int, int)>();
+
+            for (int y = 0; y < 10; y++)
+            {
+                for (int x = 0; x < 10; x++)
+                {
+                    if (opponentBoard.board[x, y] == "[ ]"  || opponentBoard.board[x, y] == "[H]")
+                    {
+                        targets.Add((x, y));
+                    }
+                }
+            }
+
+            return targets;
+        }
+
+        public List<(int, int)> TargetAnalysis(List<(int, int)> targets)
+        {
+            List<(int, int)> smartTargets = new List<(int, int)>();
+
+            foreach ((int, int) coords in targets)
+            {
+                if (opponentBoard.board[coords.Item1, coords.Item2] == "[H]")
+                {
+                    if (!(coords.Item2 + 1 > 9) && opponentBoard.board[coords.Item1, coords.Item2 + 1] == "[ ]")
+                    {
+                        smartTargets.Add((coords.Item1, coords.Item2 + 1));
+                    }
+                    if (!(coords.Item2 - 1 < 0) && opponentBoard.board[coords.Item1, coords.Item2 - 1] == "[ ]")
+                    {
+                        smartTargets.Add((coords.Item1, coords.Item2 - 1));
+                    }
+                    if (!(coords.Item1 + 1 > 9) && opponentBoard.board[coords.Item1 + 1, coords.Item2] == "[ ]")
+                    {
+                        smartTargets.Add((coords.Item1 + 1, coords.Item2));
+                    }
+                    if (!(coords.Item1 - 1 < 0) && opponentBoard.board[coords.Item1 - 1, coords.Item2] == "[ ]")
+                    {
+                        smartTargets.Add((coords.Item1 - 1, coords.Item2));
+                    }
+                }
+            }
+
+            if (smartTargets.Any())
+            {
+                return smartTargets;
+            }
+            return targets;
         }
 
     }

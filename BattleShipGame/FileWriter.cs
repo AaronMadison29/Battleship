@@ -44,6 +44,7 @@ namespace BattleShipGame
 
             sw.WriteLine(player1.name);
             sw.WriteLine("playerboard");
+            sw.Write("{");
             for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 10; j++)
@@ -51,7 +52,9 @@ namespace BattleShipGame
                     sw.Write(player1.playerBoard.board[j, i] + ",");
                 }
             }
+            sw.Write("}");
             sw.WriteLine("\nopponentboard");
+            sw.Write("{");
             for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 10; j++)
@@ -59,8 +62,10 @@ namespace BattleShipGame
                     sw.Write(player1.opponentBoard.board[j, i] + ",");
                 }
             }
+            sw.Write("}");
             sw.WriteLine("\n" + player2.name);
             sw.WriteLine("playerboard");
+            sw.Write("{");
             for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 10; j++)
@@ -68,7 +73,9 @@ namespace BattleShipGame
                     sw.Write(player2.playerBoard.board[j, i]+ ",");
                 }
             }
+            sw.Write("}");
             sw.WriteLine("\nopponentboard");
+            sw.Write("{");
             for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 10; j++)
@@ -76,6 +83,7 @@ namespace BattleShipGame
                     sw.Write(player2.opponentBoard.board[j, i] + ",");
                 }
             }
+            sw.Write("}");
             sw.Close();
         }
     }

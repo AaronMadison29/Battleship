@@ -9,8 +9,8 @@ namespace BattleShipGame
 {
     class Game
     {
-        string userLog = "BattleShipGame\\SaveGames\\UserLog.txt";
-        string saveGame = "BattleShipGame\\SaveGames\\";
+        string userLog = "C:\\Users\\aaron\\Desktop\\DevCodeCamp\\Projects\\BattleShipGame\\BattleShipGame\\SaveGames\\UserLog.txt";
+        string saveGame = "C:\\Users\\aaron\\Desktop\\DevCodeCamp\\Projects\\BattleShipGame\\BattleShipGame\\SaveGames\\";
         Player player1;
         Player player2;
         Regex playerIntput = new Regex("[0-2]");
@@ -21,6 +21,7 @@ namespace BattleShipGame
         public FileReader saveFileReader;
         public FileWriter saveFileWriter;
         public bool saveLoaded = false;
+        private int turnCounter = 0;
 
         public Game()
         {
@@ -120,7 +121,7 @@ namespace BattleShipGame
             }
             userFileWriter.SaveUserFile(users);
 
-            if(Interface.SaveOption() == "y")
+            if (input == "2" && Interface.SaveOption() == "y")
             {
                 SaveRestore();
                 saveLoaded = true;
@@ -164,14 +165,18 @@ namespace BattleShipGame
             if (player1.ships.Count == 0)
             {
                 Console.Clear();
-                Console.WriteLine($"{player2.name} wins!");
+                Console.WriteLine($"{player2.name} won in {turnCounter} turns!");
+                player1.GetBoard();
+                player2.GetBoard();
                 return true;
 
             }
             else if (player2.ships.Count == 0)
             {
                 Console.Clear();
-                Console.WriteLine($"{player1.name} wins!");
+                Console.WriteLine($"{player1.name} won in {turnCounter} turns!");
+                player1.GetBoard();
+                player2.GetBoard();
                 return true;
             }
             else
@@ -184,6 +189,7 @@ namespace BattleShipGame
         {
             do
             {
+                turnCounter++;
                 player1.GetBoard();
                 player1.Fire(player2);
 
@@ -191,7 +197,10 @@ namespace BattleShipGame
                 {
                     break;
                 }
-                Interface.EndOfTurn();
+                if(player1 is Human)
+                {
+                    Interface.EndOfTurn();
+                }
 
                 player2.GetBoard();
                 player2.Fire(player1);
@@ -201,8 +210,11 @@ namespace BattleShipGame
                     break;
                 }
 
-                SaveGame(Interface.SaveGame());
-                Interface.EndOfTurn();
+                if (player1 is Human)
+                {
+                    SaveGame(Interface.SaveGame());
+                    Interface.EndOfTurn();
+                }
 
 
             } while (true);
